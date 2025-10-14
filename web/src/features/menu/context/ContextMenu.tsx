@@ -1,0 +1,126 @@
+import { useNuiEvent } from '../../../hooks/useNuiEvent';
+import { Box, createStyles, Flex, Stack, Text } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { ContextMenuProps } from '../../../typings';
+import ContextButton from './components/ContextButton';
+import { fetchNui } from '../../../utils/fetchNui';
+import ReactMarkdown from 'react-markdown';
+import HeaderButton from './components/HeaderButton';
+import ScaleFade from '../../../transitions/ScaleFade';
+import MarkdownComponents from '../../../config/MarkdownComponents';
+
+const openMenu = (id: string | undefined) => {
+  fetchNui<ContextMenuProps>('openContext', { id: id, back: true });
+};
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    position: 'absolute',
+    top: '15%',
+    right: '20%',
+    pointerEvents: 'all',
+    width: 320,
+    height: 580,
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    gap: 4,
+  },
+  titleContainer: {
+    borderRadius: 0,
+    flex: '1 1 0',
+    background: 'linear-gradient(90deg, #0080c0 0%, #40a0ff 50%, #0080c0 100%)',
+    color: '#ffffff',
+    border: '2px outset #0080c0',
+    fontFamily: 'MS Sans Serif, sans-serif',
+    fontSize: '11px',
+    boxShadow: 'inset 1px 1px 0px rgba(255,255,255,0.3), inset -1px -1px 0px rgba(0,0,0,0.3)',
+  },
+  titleText: {
+    color: '#ffffff',
+    padding: 8,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontFamily: 'MS Sans Serif, sans-serif',
+    fontSize: '11px',
+    textShadow: '1px 1px 0px rgba(0,0,0,0.5)',
+  },
+  buttonsContainer: {
+    height: 560,
+    overflowY: 'auto',
+    backgroundColor: '#c0c0c0',
+    border: '2px inset #c0c0c0',
+    padding: 4,
+  },
+  buttonsFlexWrapper: {
+    gap: 2,
+  },
+}));
+
+const ContextMenu: React.FC = () => {
+  const { classes } = useStyles();
+  const [visible, setVisible] = useState(false);
+  const [contextMenu, setContextMenu] = useState<ContextMenuProps>({
+    title: '',
+    options: { '': { description: '', metadata: [] } },
+  });
+
+  const closeContext = () => {
+    if (contextMenu.canClose === false) return;
+    setVisible(false);
+    fetchNui('closeContext');
+  };
+
+  // Hides the context menu on ESC
+  useEffect(() => {
+    if (!visible) return;
+
+    const keyHandler = (e: KeyboardEvent) => {
+      if (['Escape'].includes(e.code)) closeContext();
+    };
+
+    window.addEventListener('keydown', keyHandler);
+
+    return () => window.removeEventListener('keydown', keyHandler);
+  }, [visible]);
+
+  useNuiEvent('hideContext', () => setVisible(false));
+
+  useNuiEvent<ContextMenuProps>('showContext', async (data) => {
+    if (visible) {
+      setVisible(false);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    setContextMenu(data);
+    setVisible(true);
+  });
+
+  return (
+    <Box className={classes.container}>
+      <ScaleFade visible={visible}>
+        <Flex className={classes.header}>
+          {contextMenu.menu && (
+            <HeaderButton icon="chevron-left" iconSize={16} handleClick={() => openMenu(contextMenu.menu)} />
+          )}
+          <Box className={classes.titleContainer}>
+            <Text className={classes.titleText}>
+              <ReactMarkdown components={MarkdownComponents}>{contextMenu.title}</ReactMarkdown>
+            </Text>
+          </Box>
+          <HeaderButton icon="xmark" canClose={contextMenu.canClose} iconSize={18} handleClick={closeContext} />
+        </Flex>
+        <Box className={classes.buttonsContainer}>
+          <Stack className={classes.buttonsFlexWrapper}>
+            {Object.entries(contextMenu.options).map((option, index) => (
+              <ContextButton option={option} key={`context-item-${index}`} />
+            ))}
+          </Stack>
+        </Box>
+      </ScaleFade>
+    </Box>
+  );
+};
+
+export default ContextMenu;

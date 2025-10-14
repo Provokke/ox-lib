@@ -1,0 +1,47 @@
+MIT License
+
+Copyright (c) 2024 ox_lib Retro Windows Theme
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Additional Terms for Theme Usage
+
+This retro Windows theme is designed as a reskin for ox_lib and is intended
+to be used in compliance with ox_lib's original license terms. Users must
+ensure they have proper rights to use ox_lib before applying this theme.
+
+### Attribution
+
+While not required by the MIT license, attribution is appreciated:
+- "Retro Windows Theme for ox_lib" 
+- Link to the original repository when sharing or redistributing
+
+### Compatibility Notice
+
+This theme is designed for ox_lib version 3.x.x and above. Compatibility
+with future versions of ox_lib is not guaranteed and may require updates
+to the theme files.
+
+### Trademark Notice
+
+Windows, Windows 95, and Windows 2000 are trademarks of Microsoft Corporation.
+This theme is created for nostalgic and educational purposes and is not
+affiliated with or endorsed by Microsoft Corporation.
